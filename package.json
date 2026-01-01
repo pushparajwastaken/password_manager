@@ -12,6 +12,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.84.0",
     "argon2-browser": "^1.18.0",
+    "bcrypt": "^6.0.0",
     "crypto-js": "^4.2.0",
     "framer-motion": "^12.23.24",
     "lucide": "^0.554.0",
