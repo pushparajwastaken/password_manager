@@ -22,6 +22,10 @@ const userSchema = new Schema(
       select: false,
       required: [true, "Master Password is required"],
     },
+    salt: {
+      type: String,
+      required: true,
+    },
     refreshToken: {
       type: String,
     },
