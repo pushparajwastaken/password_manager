@@ -8,10 +8,6 @@ const passwordSchema = new Schema(
       required: true,
       index: true,
     },
-    userName: {
-      type: String,
-      trim: true,
-    },
     encryptedPassword: {
       type: String,
       required: true,
