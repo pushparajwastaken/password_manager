@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
-import { argon2d, argon2id } from "argon2";
+import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import { cookieOptions } from "../utils/cookieOption.utils.js";
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -22,7 +22,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
 };
 const registerUser = asyncHandler(async (req, res) => {
   const { userName, email, masterPassword } = req.body;
-  if ([userName, email, masterPassword].some((field) => field?.trim === "")) {
+  if ([userName, email, masterPassword].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All Fields are required");
   }
   const existedUser = await User.findOne({
@@ -31,11 +31,11 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existedUser) {
     throw new ApiError(409, "Email or UserName Already exists");
   }
-  const hashedPassword = await argon2id.hash(masterPassword);
+
   const user = await User.create({
     userName,
     email,
-    masterPassword: hashedPassword,
+    masterPassword,
   });
   const createdUser = await User.findById(user._id).select(
     "-masterPassword -refreshToken",
@@ -52,9 +52,13 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!(userName || email)) {
     throw new ApiError(400, "Username or email is required");
   }
+
+  if (!password || password.trim() === "") {
+    throw new ApiError(400, "Password is required");
+  }
   const user = await User.findOne({
     $or: [{ userName }, { email }],
-  });
+  }).select("+masterPassword");
   if (!user) {
     throw new ApiError(404, "User not found");
   }
@@ -71,7 +75,7 @@ const loginUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .cookie("accessToken", accessToken, cookieOptions)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("refreshToken", refreshToken, cookieOptions)
     .json(
       new ApiResponse(
         200,
@@ -105,32 +109,35 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken =
-    req.cookies.refreshToken || req.body.refreshToken;
+    req.cookies?.refreshToken || req.body?.refreshToken;
   if (!incomingRefreshToken) {
     throw new ApiError(401, "Unauthorized Request");
   }
   try {
     const decodedToken = jwt.verify(
-      incomingRefreshToken,
+      incomingRefreshToken.trim(),
       process.env.REFRESH_TOKEN_SECRET,
     );
-    const user = await User.findById(decodedToken?._id);
+    const user = await User.findById(decodedToken?._id).select("+refreshToken");
     if (!user) {
       throw new ApiError(401, "Invalid Refresh Token");
     }
     if (incomingRefreshToken !== user?.refreshToken) {
-      throw new ApiError(401, "Refresh token is expired or used");
+      user.refreshToken = null;
+      await user.save({ validateBeforeSave: false });
+      throw new ApiError(401, "Refresh token expired or reused");
     }
-    const { newRefreshToken, accessToken } =
-      await generateAccessAndRefreshTokens(user._id);
+    const { refreshToken, accessToken } = await generateAccessAndRefreshTokens(
+      user._id,
+    );
     return res
       .status(200)
-      .cookie("refreshToken", newRefreshToken, cookieOptions)
-      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, cookieOptions)
+      .cookie("accessToken", accessToken, cookieOptions)
       .json(
         new ApiResponse(
           200,
-          { refreshToken: newRefreshToken, accessToken },
+          { refreshToken, accessToken },
           "Refresh token refreshed succssfully",
         ),
       );
@@ -141,25 +148,26 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 const changeMasterPassword = asyncHandler(async (req, res) => {
   const { masterPassword, newPassword, confirmPassword } = req.body;
   if (
-    [newPassword, confirmPassword].some((f) => {
-      f?.trim === "";
-    })
+    [newPassword, confirmPassword].some(
+      (f) => typeof f !== "string" || f.trim() === "",
+    )
   ) {
     throw new ApiError(400, "Both the fields are required");
   }
+
   if (newPassword !== confirmPassword) {
     throw new ApiError(400, "Both the password should be same");
   }
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).select("+masterPassword");
   if (!user) {
     throw new ApiError(404, "User not found");
   }
-  const hashedPassword = await argon2id.hash(masterPassword);
-  if (!user.isPasswordCorrect(hashedPassword)) {
-    throw new ApiError(403, "Incorrect Password");
+  const isPasswordCorrect = await user.isPasswordCorrect(masterPassword);
+
+  if (!isPasswordCorrect) {
+    throw new ApiError(403, "Incorrect current password");
   }
-  const password = await argon2id.hash(newPassword);
-  user.masterPassword == password;
+  user.masterPassword = newPassword;
   await user.save();
   return res
     .status(200)
@@ -178,7 +186,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     {
       new: true,
     },
-  ).select("-masterPassword -salt");
+  ).select("-masterPassword ");
 
   return res
     .status(200)

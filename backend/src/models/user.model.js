@@ -22,24 +22,20 @@ const userSchema = new Schema(
       select: false,
       required: [true, "Master Password is required"],
     },
-    salt: {
-      type: String,
-      required: true,
-    },
     refreshToken: {
       type: String,
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("masterPassword")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("masterPassword")) return;
   this.masterPassword = await argon2.hash(this.masterPassword);
-  next();
 });
 userSchema.methods.isPasswordCorrect = async function (masterPassword) {
+  if (!this.masterPassword) return false;
   return await argon2.verify(this.masterPassword, masterPassword);
 };
 userSchema.methods.generateAccessToken = function () {
@@ -52,7 +48,7 @@ userSchema.methods.generateAccessToken = function () {
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    }
+    },
   );
 };
 userSchema.methods.generateRefreshToken = function () {
@@ -63,7 +59,7 @@ userSchema.methods.generateRefreshToken = function () {
     process.env.REFRESH_TOKEN_SECRET,
     {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-    }
+    },
   );
 };
 export const User = mongoose.model("User", userSchema);
