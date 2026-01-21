@@ -23,7 +23,7 @@ export const decrypt = (cipherText, key, iv, authTag) => {
   const decipher = crypto.createDecipheriv(
     "aes-256-gcm",
     key,
-    Buffer.from(iv, "hex")
+    Buffer.from(iv, "hex"),
   );
 
   decipher.setAuthTag(Buffer.from(authTag, "hex"));

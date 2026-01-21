@@ -28,10 +28,14 @@ const passwordSchema = new Schema(
       type: String,
       required: true,
     },
+    salt: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Password = mongoose.model("Password", passwordSchema);
