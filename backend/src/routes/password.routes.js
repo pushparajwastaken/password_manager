@@ -13,3 +13,4 @@ router
   .patch(verifyJWT, updatePassword)
   .delete(verifyJWT, deletePassword);
 router.route("/user/:userId").get(getAllUserPasswords);
+export default router;
