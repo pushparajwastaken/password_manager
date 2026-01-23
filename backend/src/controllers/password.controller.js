@@ -109,13 +109,52 @@ export const deletePassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password deleted successfully"));
 });
 export const getAllUserPasswords = asyncHandler(async (req, res) => {
+  const { masterPassword } = req.body;
+
+  if (!masterPassword) {
+    throw new ApiError(400, "Master password is required");
+  }
+
+  const user = await User.findById(req.user._id).select("+masterPassword");
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  const isValid = await user.isPasswordCorrect(masterPassword);
+  if (!isValid) {
+    throw new ApiError(401, "Invalid master password");
+  }
+
   const passwords = await Password.find({
     owner: req.user._id,
-  }).select("title website createdAt updatedAt");
-  if (passwords.length === 0) {
-    throw new ApiError(404, "No passwords found");
-  }
+  });
+
+  const decryptedPasswords = passwords.map((item) => {
+    const key = deriveKey(masterPassword, item.salt);
+    const decryptedPassword = decrypt(
+      item.encryptedPassword,
+      key,
+      item.iv,
+      item.authTag,
+    );
+
+    return {
+      _id: item._id,
+      title: item.title,
+      website: item.website,
+      password: decryptedPassword,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+    };
+  });
+
   return res
     .status(200)
-    .json(new ApiResponse(200, passwords, "Passwords fetched successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        decryptedPasswords,
+        "Passwords fetched successfully",
+      ),
+    );
 });
