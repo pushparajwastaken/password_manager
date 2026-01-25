@@ -1,22 +1,15 @@
-"use client";
-
-import { useEffect } from "react";
-import { useAuthStore } from "@/store/auth.store";
+import Providers from "./providers";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const loadUser = useAuthStore((state) => state.loadUser);
-
-  useEffect(() => {
-    loadUser();
-  }, [loadUser]);
-
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
