@@ -16,7 +16,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login({ userName, password });
-      router.push("/dashboard");
+      router.push("/");
     } catch {
       alert("Invalid credentials");
     }
