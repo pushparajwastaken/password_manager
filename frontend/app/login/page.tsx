@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 export default function CardDemo() {
   const router = useRouter();
@@ -24,9 +24,14 @@ export default function CardDemo() {
   });
   const onLogin = async () => {
     try {
-      const response = await axios.post("/users/login", user);
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/users/login",
+        user,
+        { withCredentials: true },
+      );
+      console.log(response);
       toast("Login Successful!", {
-        description: `Welcome `,
+        description: `Welcome back, ${response.data.data.user.userName}`,
       });
       router.push("/");
     } catch (error: any) {
@@ -68,7 +73,7 @@ export default function CardDemo() {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <a
-                    href="#"
+                    href="/changePassword"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
