@@ -197,7 +197,26 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
 });
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { userName, email, newPassword, confirmPassword } = req.body;
+  if (!userName || !email || !newPassword || !confirmPassword) {
+    throw new ApiError(400, "All fields are required");
+  }
+  if (newPassword !== confirmPassword) {
+    throw new ApiError(400, "Both passwords should be same");
+  }
+  const user = await User.findOne({ userName });
+  if (!user) {
+    throw new ApiError(404, "Invalid username or email");
+  }
+  user.masterPassword = newPassword;
+  await user.save();
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Password Changed Successfully"));
+});
 export {
+  forgotPassword,
   registerUser,
   loginUser,
   logoutUser,

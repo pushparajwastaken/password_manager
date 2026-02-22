@@ -19,18 +19,19 @@ import { toast } from "sonner";
 export default function CardDemo() {
   const router = useRouter();
   const [passwords, setPasswords] = useState({
-    masterPassword: "",
+    userName: "",
+    email: "",
     confirmPassword: "",
     newPassword: "",
   });
   const changePassword = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/users/changePassword",
+        "http://localhost:4000/api/v1/users/forgotPassword",
         passwords,
         { withCredentials: true },
       );
-      toast("Password Changed Successfully");
+      toast("Password Updated Successfully");
       router.push("/login");
     } catch (error: any) {
       toast("Unable to change the Password", {
@@ -42,21 +43,43 @@ export default function CardDemo() {
   return (
     <div className="flex justify-center h-screen  items-center">
       <Card className="w-full max-w-sm font-mono">
+        <CardHeader>
+          <CardTitle>Change Your Password</CardTitle>
+          <CardDescription>Remember the new Password</CardDescription>
+          <CardAction>
+            <Link href="/login">
+              <Button variant="link">Login</Button>
+            </Link>
+          </CardAction>
+        </CardHeader>
         <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="password">Master Password</Label>
+                <Label htmlFor="userName">Username</Label>
                 <Input
-                  id="masterPassword"
-                  type="password"
-                  value={passwords.masterPassword}
+                  id="userName"
+                  type="userName"
+                  value={passwords.userName}
                   onChange={(e) =>
                     setPasswords({
                       ...passwords,
-                      masterPassword: e.target.value,
+                      userName: e.target.value,
                     })
                   }
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={passwords.email}
+                  onChange={(e) =>
+                    setPasswords({ ...passwords, email: e.target.value })
+                  }
+                  placeholder="lavanya@example.com"
                   required
                 />
               </div>
