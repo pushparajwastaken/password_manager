@@ -48,8 +48,8 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User Registered Successfully"));
 });
 const loginUser = asyncHandler(async (req, res) => {
-  const { userName, password, email } = req.body;
-  if (!(userName || email)) {
+  const { password, email } = req.body;
+  if (!email) {
     throw new ApiError(400, "Username or email is required");
   }
 
@@ -57,7 +57,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Password is required");
   }
   const user = await User.findOne({
-    $or: [{ userName }, { email }],
+    email,
   }).select("+masterPassword");
   if (!user) {
     throw new ApiError(404, "User not found");
