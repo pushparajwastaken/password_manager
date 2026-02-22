@@ -30,7 +30,6 @@ export default function CardDemo() {
         user,
         { withCredentials: true },
       );
-      console.log(response);
       toast("Sign Up Successful!", {
         description: `Welcome ${response.data.data.userName}`,
       });

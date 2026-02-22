@@ -29,7 +29,6 @@ export default function CardDemo() {
         user,
         { withCredentials: true },
       );
-      console.log(response);
       toast("Login Successful!", {
         description: `Welcome back, ${response.data.data.user.userName}`,
       });

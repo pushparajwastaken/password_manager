@@ -18,23 +18,22 @@ import { useState } from "react";
 import { toast } from "sonner";
 export default function CardDemo() {
   const router = useRouter();
-  const [user, setUser] = useState({
-    userName: "",
-    email: "",
+  const [passwords, setPasswords] = useState({
     masterPassword: "",
+    confirmPassword: "",
+    newPassword: "",
   });
-  const onSignUp = async () => {
+  const changePassword = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/users/register",
-        user,
+        "http://localhost:4000/api/v1/users/changePassword",
+        passwords,
         { withCredentials: true },
       );
-      console.log(response);
       toast("Password Changed Successfully");
       router.push("/login");
     } catch (error: any) {
-      toast("Sign Up Failed", {
+      toast("Unable to change the Password", {
         description: error.message,
       });
     }
@@ -44,10 +43,8 @@ export default function CardDemo() {
     <div className="flex justify-center h-screen  items-center">
       <Card className="w-full max-w-sm font-mono">
         <CardHeader>
-          <CardTitle>Make Your Account</CardTitle>
-          <CardDescription>
-            Enter your details below to create your account
-          </CardDescription>
+          <CardTitle>Change Your Password</CardTitle>
+          <CardDescription>Remember the new Password</CardDescription>
           <CardAction>
             <Link href="/login">
               <Button variant="link">Login</Button>
@@ -58,38 +55,45 @@ export default function CardDemo() {
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="password">Master Password</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  value={user.email}
-                  onChange={(e) => setUser({ ...user, email: e.target.value })}
-                  placeholder="lavanya@example.com"
+                  id="masterPassword"
+                  type="password"
+                  value={passwords.masterPassword}
+                  onChange={(e) =>
+                    setPasswords({
+                      ...passwords,
+                      masterPassword: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="userName">Username</Label>
+                <Label htmlFor="password">New Password</Label>
                 <Input
-                  id="userName"
-                  type="userName"
-                  value={user.userName}
+                  id="newPassword"
+                  type="password"
+                  value={passwords.newPassword}
                   onChange={(e) =>
-                    setUser({ ...user, userName: e.target.value })
+                    setPasswords({ ...passwords, newPassword: e.target.value })
                   }
                   required
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Master Password</Label>
+                  <Label htmlFor="password">Confirm new Password</Label>
                 </div>
                 <Input
-                  id="password"
+                  id="confirmassword"
                   type="password"
-                  value={user.masterPassword}
+                  value={passwords.confirmPassword}
                   onChange={(e) => {
-                    setUser({ ...user, masterPassword: e.target.value });
+                    setPasswords({
+                      ...passwords,
+                      confirmPassword: e.target.value,
+                    });
                   }}
                   required
                 />
@@ -98,8 +102,8 @@ export default function CardDemo() {
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full" onClick={onSignUp}>
-            Sign Up
+          <Button type="submit" className="w-full" onClick={changePassword}>
+            Change Your Password
           </Button>
         </CardFooter>
       </Card>
