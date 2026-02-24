@@ -1,5 +1,5 @@
 "use client";
-
+import { Button } from "@/components/ui/button";
 import * as React from "react";
 import Link from "next/link";
 import {
@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 type User = {
   _id: string;
   userName: string;
@@ -21,6 +23,7 @@ type User = {
   updatedAt: string;
 };
 export function NavigationMenuDemo() {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -31,8 +34,22 @@ export function NavigationMenuDemo() {
 
       setUser(response.data.data);
     };
-    fetchData(); // ✅ THIS WAS MISSING
-  }, []); // ✅ run once on mount
+    fetchData();
+  }, []);
+  const logout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:4000/api/v1/users/logout",
+        {},
+        { withCredentials: true },
+      );
+      router.push("/login");
+    } catch (error: any) {
+      toast("Unable to logout", {
+        description: error.message,
+      });
+    }
+  };
   return (
     <div className="flex justify-center py-3">
       <NavigationMenu className="font-mono">
@@ -47,7 +64,7 @@ export function NavigationMenuDemo() {
                 <ListItem href="/generatePassword" title="Create a Password">
                   Generate a custom Password
                 </ListItem>
-                <ListItem href="/updateUserInfo" title="Me">
+                <ListItem href="/changeUserDetails" title="Me">
                   Update your info
                 </ListItem>
               </ul>
@@ -62,21 +79,15 @@ export function NavigationMenuDemo() {
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link href="/me">Your Info</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
             {user ? (
               // ✅ Logged IN UI
               <NavigationMenuLink
                 asChild
                 className={navigationMenuTriggerStyle()}
               >
-                <Link href="/me">Hi, {user.userName}</Link>
+                <Button onClick={logout} className="text-black">
+                  Logout
+                </Button>
               </NavigationMenuLink>
             ) : (
               <NavigationMenuLink

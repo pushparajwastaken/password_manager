@@ -32,7 +32,7 @@ export default function CardDemo() {
       toast("Login Successful!", {
         description: `Welcome back, ${response.data.data.user.userName}`,
       });
-      router.push("/");
+      router.replace("/");
     } catch (error: any) {
       toast("Login Failed", {
         description: error.message,
