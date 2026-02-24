@@ -35,7 +35,7 @@ export default function page() {
         setUser(response.data.data);
       } catch (error: any) {
         toast.error("Failed to fetch user", {
-          description: "Please try again later",
+          description: error.message,
         });
       }
     };
