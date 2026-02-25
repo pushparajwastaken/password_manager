@@ -33,7 +33,7 @@ export default function CardDemo() {
       toast("Sign Up Successful!", {
         description: `Welcome ${response.data.data.userName}`,
       });
-      router.push("/");
+      router.replace("/");
     } catch (error: any) {
       toast("Sign Up Failed", {
         description: error.message,

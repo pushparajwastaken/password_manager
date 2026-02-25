@@ -64,7 +64,10 @@ export function NavigationMenuDemo() {
                 <ListItem href="/generatePassword" title="Create a Password">
                   Generate a custom Password
                 </ListItem>
-                <ListItem href="/changeUserDetails" title="Me">
+                <ListItem href="/changePassword" title="Master Password">
+                  Change your master password
+                </ListItem>
+                <ListItem href="/changeUserDetails" title="Update">
                   Update your info
                 </ListItem>
               </ul>
@@ -76,6 +79,14 @@ export function NavigationMenuDemo() {
               className={navigationMenuTriggerStyle()}
             >
               <Link href="/">Home</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link href="/me">Me</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
