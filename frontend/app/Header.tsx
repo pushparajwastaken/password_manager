@@ -69,7 +69,7 @@ export function NavigationMenuDemo() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Update</NavigationMenuTrigger>
+            <NavigationMenuTrigger> Modify</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="w-96">
                 <ListItem href="/changePassword" title="Master Password">

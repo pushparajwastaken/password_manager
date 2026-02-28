@@ -145,7 +145,7 @@ export default function Home() {
           </CardContent>{" "}
           <CardFooter className="flex-col gap-2">
             {" "}
-            <Button type="submit" className="w-full" onClick={addPassword}>
+            <Button type="submit" className="w-full mt-4" onClick={addPassword}>
               {" "}
               Add Password{" "}
             </Button>{" "}
