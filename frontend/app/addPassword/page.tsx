@@ -4,21 +4,15 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardAction,
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
-import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { useRouter } from "next/navigation";
 export default function Home() {
-  const router = useRouter();
   const [password, setPassword] = useState({
     password: "",
     title: "",

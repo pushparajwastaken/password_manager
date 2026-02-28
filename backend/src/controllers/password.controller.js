@@ -158,4 +158,3 @@ export const getAllUserPasswords = asyncHandler(async (req, res) => {
       ),
     );
 });
-
