@@ -64,6 +64,14 @@ export function NavigationMenuDemo() {
                 <ListItem href="/generatePassword" title="Create a Password">
                   Generate a custom Password
                 </ListItem>
+                <ListItem href="/addPassword" title="Add a Password"></ListItem>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Update</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="w-96">
                 <ListItem href="/changePassword" title="Master Password">
                   Change your master password
                 </ListItem>

@@ -159,4 +159,3 @@ export const getAllUserPasswords = asyncHandler(async (req, res) => {
     );
 });
 
-//todo-search passwords
