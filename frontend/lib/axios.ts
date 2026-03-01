@@ -5,11 +5,12 @@ const API = axios.create({
   withCredentials: true,
 });
 
-// Automatically attach token to every request
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
   return config;
 });
