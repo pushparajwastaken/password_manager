@@ -6,7 +6,7 @@ import { deriveKey, encrypt, decrypt } from "../utils/crypto.utils.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import crypto from "crypto";
 import { isValidObjectId } from "mongoose";
-export const CreatePassword = asyncHandler(async (req, res) => {
+export const createPassword = asyncHandler(async (req, res) => {
   const { password, title, website, masterPassword } = req.body;
   if ([password, title, masterPassword].some((f) => !f?.trim())) {
     throw new ApiError(400, "Password, title and master password are required");
@@ -24,7 +24,7 @@ export const CreatePassword = asyncHandler(async (req, res) => {
   if (!isValid) {
     throw new ApiError(401, "Invalid master password");
   }
-  const salt = crypto.randomBytes(16);
+  const salt = crypto.randomBytes(16).toString("hex");
   const key = deriveKey(masterPassword, salt);
   const { cipherText, iv, authTag } = encrypt(password, key);
   const savedPassword = await Password.create({
@@ -76,7 +76,7 @@ export const updatePassword = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid master password");
   }
 
-  const salt = crypto.randomBytes(16);
+  const salt = crypto.randomBytes(16).toString("hex");
   const key = deriveKey(masterPassword, salt);
 
   const { cipherText, iv, authTag } = encrypt(newPassword, key);

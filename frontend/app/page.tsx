@@ -15,7 +15,6 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
@@ -52,7 +51,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold">Password Manager</h1>
 
         <div className="w-full max-w-xl grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Link href="/showallPasswords">
+          <Link href="/showAllPasswords">
             <Button className="h-16 w-full">See all Passwords</Button>
           </Link>
 
