@@ -50,47 +50,6 @@ export const createPassword = asyncHandler(async (req, res) => {
     ),
   );
 });
-export const updatePassword = asyncHandler(async (req, res) => {
-  const { newPassword, masterPassword } = req.body;
-  const { passwordId } = req.params;
-
-  if (!isValidObjectId(passwordId)) {
-    throw new ApiError(400, "Invalid Password Id");
-  }
-
-  const password = await Password.findById(passwordId);
-  if (!password) {
-    throw new ApiError(404, "Password not found");
-  }
-
-  if (!password.owner.equals(req.user._id)) {
-    throw new ApiError(403, "Unauthorized to update the password");
-  }
-
-  const user = await User.findById(req.user._id).select(
-    "+masterPassword +salt",
-  );
-
-  const isValid = await user.isPasswordCorrect(masterPassword);
-  if (!isValid) {
-    throw new ApiError(401, "Invalid master password");
-  }
-
-  const salt = crypto.randomBytes(16).toString("hex");
-  const key = deriveKey(masterPassword, salt);
-
-  const { cipherText, iv, authTag } = encrypt(newPassword, key);
-
-  password.encryptedPassword = cipherText;
-  password.iv = iv;
-  password.authTag = authTag;
-  password.salt = salt;
-  await password.save();
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, password, "Password updated successfully"));
-});
 export const deletePassword = asyncHandler(async (req, res) => {
   const { passwordId } = req.params;
   if (!isValidObjectId(passwordId)) {
