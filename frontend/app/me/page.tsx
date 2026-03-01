@@ -28,7 +28,7 @@ export default function page() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/v1//users/currentUser`,
+          `${API_URL}/api/v1/users/currentUser`,
           {
             withCredentials: true,
           },

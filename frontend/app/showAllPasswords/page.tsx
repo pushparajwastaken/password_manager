@@ -36,7 +36,7 @@ export default function page() {
   const fetchPassword = async () => {
     try {
       const response = await axios.post(
-        `${API_URL}api/v1/password/user`,
+        `${API_URL}/api/v1/password/user`,
         { masterPassword },
         {
           withCredentials: true,
