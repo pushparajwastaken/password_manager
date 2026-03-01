@@ -8,6 +8,10 @@ export default function middleware(request: NextRequest) {
     path === "/login" || path === "/signUp" || path === "/forgotPassword";
 
   const token = request.cookies.get("accessToken")?.value || "";
+  console.log("PATH:", path);
+  console.log("TOKEN:", token);
+  console.log("ALL COOKIES:", request.cookies.getAll());
+
   if (isPublicPath && token) {
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
