@@ -22,15 +22,16 @@ type User = {
   createdAt: string;
   updatedAt: string;
 };
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export function NavigationMenuDemo() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:4000/api/v1/users/currentUser",
-        { withCredentials: true },
-      );
+      const response = await axios.get(`${API_URL}/users/currentUser`, {
+        withCredentials: true,
+      });
 
       setUser(response.data.data);
     };
@@ -39,7 +40,7 @@ export function NavigationMenuDemo() {
   const logout = async () => {
     try {
       await axios.post(
-        "http://localhost:4000/api/v1/users/logout",
+        `${API_URL}/users/logout`,
         {},
         { withCredentials: true },
       );

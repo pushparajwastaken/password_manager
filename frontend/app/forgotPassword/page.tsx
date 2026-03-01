@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function CardDemo() {
   const router = useRouter();
   const [passwords, setPasswords] = useState({
@@ -27,7 +29,7 @@ export default function CardDemo() {
   const changePassword = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/users/forgotPassword",
+        `${API_URL}/users/forgotPassword`,
         passwords,
         { withCredentials: true },
       );

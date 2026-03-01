@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function Home() {
   const router = useRouter();
   const [password, setPassword] = useState({
@@ -27,7 +29,7 @@ export default function Home() {
   const addPassword = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/passwords/createPassword",
+        `${API_URL}/passwords/createPassword"`,
         password,
         { withCredentials: true },
       );

@@ -20,15 +20,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function page() {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/api/v1/users/currentUser",
-          { withCredentials: true },
-        );
+        const response = await axios.get(`${API_URL}/users/currentUser`, {
+          withCredentials: true,
+        });
 
         setUser(response.data.data);
       } catch (error: any) {

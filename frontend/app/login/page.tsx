@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function CardDemo() {
   const router = useRouter();
   const [user, setUser] = useState({
@@ -24,11 +26,9 @@ export default function CardDemo() {
   });
   const onLogin = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/v1/users/login",
-        user,
-        { withCredentials: true },
-      );
+      const response = await axios.post(`${API_URL}/users/login`, user, {
+        withCredentials: true,
+      });
       toast("Login Successful!", {
         description: `Welcome back, ${response.data.data.user.userName}`,
       });

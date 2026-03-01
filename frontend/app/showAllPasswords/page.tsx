@@ -16,6 +16,8 @@ import {
   CardAction,
 } from "@/components/ui/card";
 import { div } from "motion/react-client";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface Password {
   _id: string;
   website: string;
@@ -34,7 +36,7 @@ export default function page() {
   const fetchPassword = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/password/user",
+        `${API_URL}/password/user`,
         { masterPassword },
         {
           withCredentials: true,
@@ -52,12 +54,9 @@ export default function page() {
 
   const deletePassword = useCallback(async (passwordId: string) => {
     try {
-      await axios.delete(
-        `http://localhost:4000/api/v1/password/c/${passwordId}`,
-        {
-          withCredentials: true,
-        },
-      );
+      await axios.delete(`${API_URL}/password/c/${passwordId}`, {
+        withCredentials: true,
+      });
       setPasswords((prev) => prev.filter((p) => p._id !== passwordId));
       toast("Password deleted successfully");
     } catch (error: any) {

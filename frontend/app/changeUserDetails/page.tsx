@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function page() {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -27,10 +29,9 @@ export default function page() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/api/v1/users/currentUser",
-          { withCredentials: true },
-        );
+        const response = await axios.get(`${API_URL}/users/currentUser`, {
+          withCredentials: true,
+        });
         setForm({
           userName: response.data.data.userName,
           email: response.data.data.email,
