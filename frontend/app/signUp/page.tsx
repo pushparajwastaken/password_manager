@@ -11,12 +11,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import axios from "axios";
+import API from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function CardDemo() {
   const router = useRouter();
@@ -27,13 +26,10 @@ export default function CardDemo() {
   });
   const onSignUp = async () => {
     try {
-      const response = await axios.post(
-        `${API_URL}/api/v1/users/register`,
-        user,
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await API.post(`/api/v1/users/register`, user);
+      // Add these two lines:
+      localStorage.setItem("accessToken", response.data.data.accessToken);
+      document.cookie = `accessToken=${response.data.data.accessToken}; path=/; max-age=86400`;
       toast("Sign Up Successful!", {
         description: `Welcome ${response.data.data.userName}`,
       });

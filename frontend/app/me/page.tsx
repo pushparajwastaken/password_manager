@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 type User = {
@@ -20,19 +19,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+import API from "@/lib/axios";
 export default function page() {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/api/v1/users/currentUser`,
-          {
-            withCredentials: true,
-          },
-        );
+        const response = await API.get(`/api/v1/users/currentUser`);
 
         setUser(response.data.data);
       } catch (error: any) {

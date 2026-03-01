@@ -8,11 +8,10 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import axios from "axios";
+import API from "@/lib/axios";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Home() {
   const [password, setPassword] = useState({
@@ -23,10 +22,9 @@ export default function Home() {
   });
   const addPassword = async () => {
     try {
-      const response = await axios.post(
-        `${API_URL}/api/v1/password/createPassword`,
+      const response = await API.post(
+        `/api/v1/password/createPassword`,
         password,
-        { withCredentials: true },
       );
       toast("Password added Successfully!");
       setPassword({

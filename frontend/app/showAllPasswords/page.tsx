@@ -3,10 +3,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Eye, EyeOff, Copy, Trash, Pencil } from "lucide-react";
 
 import { toast } from "sonner";
-import axios from "axios";
+import API from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+
 import {
   Card,
   CardTitle,
@@ -15,9 +15,6 @@ import {
   CardFooter,
   CardAction,
 } from "@/components/ui/card";
-import { div } from "motion/react-client";
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 interface Password {
   _id: string;
   website: string;
@@ -35,13 +32,9 @@ export default function page() {
   };
   const fetchPassword = async () => {
     try {
-      const response = await axios.post(
-        `${API_URL}/api/v1/password/user`,
-        { masterPassword },
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await API.post(`/api/v1/password/user`, {
+        masterPassword,
+      });
       setPasswords(response.data.data);
       setLock(false);
       toast("Passwords fetched Successfully");
@@ -54,9 +47,7 @@ export default function page() {
 
   const deletePassword = useCallback(async (passwordId: string) => {
     try {
-      await axios.delete(`${API_URL}/api/v1/password/c/${passwordId}`, {
-        withCredentials: true,
-      });
+      await API.delete(`/api/v1/password/c/${passwordId}`);
       setPasswords((prev) => prev.filter((p) => p._id !== passwordId));
       toast("Password deleted successfully");
     } catch (error: any) {

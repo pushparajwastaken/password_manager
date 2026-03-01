@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 import {
@@ -18,8 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+import API from "@/lib/axios";
 export default function page() {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -29,12 +27,9 @@ export default function page() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/api/v1/users/currentUser`,
-          {
-            withCredentials: true,
-          },
-        );
+        const response = await API.get(`/api/v1/users/currentUser`, {
+          withCredentials: true,
+        });
         setForm({
           userName: response.data.data.userName,
           email: response.data.data.email,
@@ -50,13 +45,7 @@ export default function page() {
   }, []);
   const changeDetails = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/v1/users/updateAccount",
-        form,
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await API.post(`/api/v1/users/updateAccount`, form);
 
       toast("User Info Changed Successfully");
       router.push("/me");

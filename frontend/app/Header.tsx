@@ -12,7 +12,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "@/lib/axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 type User = {
@@ -22,28 +22,24 @@ type User = {
   createdAt: string;
   updatedAt: string;
 };
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export function NavigationMenuDemo() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${API_URL}/api/v1/users/currentUser`, {
-        withCredentials: true,
-      });
-
-      setUser(response.data.data);
+      try {
+        const response = await API.get(`/api/v1/users/currentUser`);
+        setUser(response.data.data);
+      } catch (error) {
+        setUser(null); // silently fail, show Login button
+      }
     };
     fetchData();
   }, []);
   const logout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/v1/users/logout`,
-        {},
-        { withCredentials: true },
-      );
+      await API.post(`/api/v1/users/logout`, {}, { withCredentials: true });
+      localStorage.removeItem("accessToken");
       document.cookie = "accessToken=; path=/; max-age=0";
       router.push("/login");
     } catch (error: any) {

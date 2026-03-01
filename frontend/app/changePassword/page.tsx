@@ -6,18 +6,13 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+import API from "@/lib/axios";
 export default function CardDemo() {
   const router = useRouter();
   const [passwords, setPasswords] = useState({
@@ -27,10 +22,9 @@ export default function CardDemo() {
   });
   const changePassword = async () => {
     try {
-      const response = await axios.post(
-        `${API_URL}/api/v1/users/changePassword`,
+      const response = await API.post(
+        `/api/v1/users/changePassword`,
         passwords,
-        { withCredentials: true },
       );
       toast("Password Changed Successfully");
       router.push("/login");
