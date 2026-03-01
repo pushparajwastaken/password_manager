@@ -25,6 +25,8 @@ export default function CardDemo() {
   const onLogin = async () => {
     try {
       const response = await API.post(`/api/v1/users/login`, user);
+      console.log("Full response:", response.data);
+
       localStorage.setItem("accessToken", response.data.data.accessToken);
       document.cookie = `accessToken=${response.data.data.accessToken}; path=/; max-age=86400`;
       toast("Login Successful!", {
