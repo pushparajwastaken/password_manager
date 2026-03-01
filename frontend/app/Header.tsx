@@ -41,7 +41,7 @@ export function NavigationMenuDemo() {
       await API.post(`/api/v1/users/logout`, {}, { withCredentials: true });
       localStorage.removeItem("accessToken");
       document.cookie = "accessToken=; path=/; max-age=0";
-      router.push("/login");
+      window.location.href = "/login"; // force full page reload
     } catch (error: any) {
       toast("Unable to logout", {
         description: error.message,
