@@ -29,6 +29,7 @@ export default function CardDemo() {
       const response = await axios.post(`${API_URL}/api/v1/users/login`, user, {
         withCredentials: true,
       });
+      document.cookie = `accessToken=${response.data.data.accessToken}; path=/; max-age=86400`;
       toast("Login Successful!", {
         description: `Welcome back, ${response.data.data.user.userName}`,
       });

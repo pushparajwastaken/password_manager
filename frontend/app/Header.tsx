@@ -44,6 +44,7 @@ export function NavigationMenuDemo() {
         {},
         { withCredentials: true },
       );
+      document.cookie = "accessToken=; path=/; max-age=0";
       router.push("/login");
     } catch (error: any) {
       toast("Unable to logout", {
