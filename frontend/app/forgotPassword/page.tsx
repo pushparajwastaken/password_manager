@@ -29,7 +29,7 @@ export default function CardDemo() {
   const changePassword = async () => {
     try {
       const response = await axios.post(
-        `${API_URL}/users/forgotPassword`,
+        `${API_URL}/api/v1/users/forgotPassword`,
         passwords,
         { withCredentials: true },
       );

@@ -27,9 +27,13 @@ export default function CardDemo() {
   });
   const onSignUp = async () => {
     try {
-      const response = await axios.post(`${API_URL}/users/register`, user, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${API_URL}/api/v1/users/register`,
+        user,
+        {
+          withCredentials: true,
+        },
+      );
       toast("Sign Up Successful!", {
         description: `Welcome ${response.data.data.userName}`,
       });

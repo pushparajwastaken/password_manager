@@ -36,7 +36,7 @@ export default function page() {
   const fetchPassword = async () => {
     try {
       const response = await axios.post(
-        `${API_URL}/password/user`,
+        `${API_URL}api/v1/password/user`,
         { masterPassword },
         {
           withCredentials: true,
@@ -54,7 +54,7 @@ export default function page() {
 
   const deletePassword = useCallback(async (passwordId: string) => {
     try {
-      await axios.delete(`${API_URL}/password/c/${passwordId}`, {
+      await axios.delete(`${API_URL}/api/v1/password/c/${passwordId}`, {
         withCredentials: true,
       });
       setPasswords((prev) => prev.filter((p) => p._id !== passwordId));

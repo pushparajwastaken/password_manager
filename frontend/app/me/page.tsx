@@ -27,9 +27,12 @@ export default function page() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/users/currentUser`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${API_URL}/api/v1//users/currentUser`,
+          {
+            withCredentials: true,
+          },
+        );
 
         setUser(response.data.data);
       } catch (error: any) {

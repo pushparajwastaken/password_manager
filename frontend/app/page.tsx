@@ -29,7 +29,7 @@ export default function Home() {
   const addPassword = async () => {
     try {
       const response = await axios.post(
-        `${API_URL}/passwords/createPassword"`,
+        `${API_URL}/api/v1/passwords/createPassword"`,
         password,
         { withCredentials: true },
       );

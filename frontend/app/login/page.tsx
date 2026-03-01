@@ -26,7 +26,7 @@ export default function CardDemo() {
   });
   const onLogin = async () => {
     try {
-      const response = await axios.post(`${API_URL}/users/login`, user, {
+      const response = await axios.post(`${API_URL}/api/v1/users/login`, user, {
         withCredentials: true,
       });
       toast("Login Successful!", {

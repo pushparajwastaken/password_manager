@@ -29,7 +29,7 @@ export function NavigationMenuDemo() {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${API_URL}/users/currentUser`, {
+      const response = await axios.get(`${API_URL}/api/v1/users/currentUser`, {
         withCredentials: true,
       });
 
@@ -40,7 +40,7 @@ export function NavigationMenuDemo() {
   const logout = async () => {
     try {
       await axios.post(
-        `${API_URL}/users/logout`,
+        `${API_URL}/api/v1/users/logout`,
         {},
         { withCredentials: true },
       );
