@@ -114,7 +114,7 @@ export default function page() {
 
   return (
     <div className="min-h-screen font-mono py-12 pt-16">
-      <div className="flex flex-wrap justify-center gap-4 px-4">
+      <div className="flex flex-col items-center gap-4 px-4 sm:flex-row sm:flex-wrap sm:justify-center">
         {passwords.length === 0 && (
           <p className="text-muted-foreground">No passwords saved yet.</p>
         )}
