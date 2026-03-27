@@ -78,6 +78,7 @@ export default function page() {
             e.preventDefault();
             changeDetails();
           }}
+          className="flex flex-col gap-4"
         >
           <CardContent>
             <div className="flex flex-col gap-6">

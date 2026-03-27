@@ -82,6 +82,7 @@ export default function page() {
               e.preventDefault();
               fetchPassword();
             }}
+            className="flex flex-col gap-4"
           >
             <CardContent>
               <form action="">

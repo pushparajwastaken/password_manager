@@ -57,6 +57,7 @@ export default function Home() {
             e.preventDefault();
             addPassword();
           }}
+          className="flex flex-col gap-4"
         >
           <CardContent>
             {" "}

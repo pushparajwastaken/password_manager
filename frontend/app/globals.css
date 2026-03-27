@@ -124,3 +124,47 @@
     @apply bg-background text-foreground;
   }
 }
+@keyframes click-shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes click-shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.btn-click {
+  transition: transform 0.1s ease;
+}
+
+.btn-click:active {
+  animation: click-shake 0.2s ease;
+  transform: scale(0.97);
+}

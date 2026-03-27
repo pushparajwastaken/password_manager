@@ -62,6 +62,7 @@ export default function CardDemo() {
             e.preventDefault();
             changePassword();
           }}
+          className="flex flex-col gap-4"
         >
           <CardContent>
             <div className="flex flex-col gap-6">
