@@ -77,31 +77,38 @@ export default function page() {
               Enter your master Password to fetch all passwords
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <form action="">
-              <div className="grid gap-2">
-                <a
-                  href="/changePassword"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                >
-                  Forgot your password?
-                </a>
-                <Input
-                  id="password"
-                  type="password"
-                  value={masterPassword}
-                  onChange={(e) => setMasterPassword(e.target.value)}
-                  required
-                />
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full" onClick={fetchPassword}>
-              {" "}
-              Submit
-            </Button>
-          </CardFooter>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              fetchPassword();
+            }}
+          >
+            <CardContent>
+              <form action="">
+                <div className="grid gap-2">
+                  <a
+                    href="/changePassword"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    Forgot your password?
+                  </a>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={masterPassword}
+                    onChange={(e) => setMasterPassword(e.target.value)}
+                    required
+                  />
+                </div>
+              </form>
+            </CardContent>
+            <CardFooter className="flex-col gap-2">
+              <Button type="submit" className="w-full">
+                {" "}
+                Submit
+              </Button>
+            </CardFooter>
+          </form>
         </Card>
       </div>
     );

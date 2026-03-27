@@ -52,9 +52,13 @@ export default function Home() {
           {" "}
           <CardTitle>Add a password</CardTitle>{" "}
         </CardHeader>{" "}
-        <CardContent>
-          {" "}
-          <form>
+        <form
+          onClick={(e) => {
+            e.preventDefault();
+            addPassword();
+          }}
+        >
+          <CardContent>
             {" "}
             <div className="flex flex-col gap-6">
               {" "}
@@ -116,15 +120,15 @@ export default function Home() {
                 />{" "}
               </div>{" "}
             </div>{" "}
-          </form>{" "}
-        </CardContent>{" "}
-        <CardFooter className="flex-col gap-2">
-          {" "}
-          <Button type="submit" className="w-full" onClick={addPassword}>
+          </CardContent>{" "}
+          <CardFooter className="flex-col gap-2">
             {" "}
-            Add Password{" "}
-          </Button>{" "}
-        </CardFooter>{" "}
+            <Button type="submit" className="w-full">
+              {" "}
+              Add Password{" "}
+            </Button>{" "}
+          </CardFooter>{" "}
+        </form>{" "}
       </Card>
     </div>
   );

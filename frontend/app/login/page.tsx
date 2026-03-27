@@ -59,8 +59,13 @@ export default function CardDemo() {
             </Link>
           </CardAction>
         </CardHeader>
-        <CardContent>
-          <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onLogin();
+          }}
+        >
+          <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -94,13 +99,13 @@ export default function CardDemo() {
                 />
               </div>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full" onClick={onLogin}>
-            Login
-          </Button>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   );

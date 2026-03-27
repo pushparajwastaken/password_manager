@@ -57,8 +57,13 @@ export default function CardDemo() {
             </Link>
           </CardAction>
         </CardHeader>
-        <CardContent>
-          <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            changePassword();
+          }}
+        >
+          <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="userName">Username</Label>
@@ -118,13 +123,13 @@ export default function CardDemo() {
                 />
               </div>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full" onClick={changePassword}>
-            Change Your Password
-          </Button>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" className="w-full">
+              Change Your Password
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   );

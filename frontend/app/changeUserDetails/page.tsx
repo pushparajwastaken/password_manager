@@ -73,8 +73,13 @@ export default function page() {
             </Link>
           </CardAction>
         </CardHeader>
-        <CardContent>
-          <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            changeDetails();
+          }}
+        >
+          <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -101,13 +106,13 @@ export default function page() {
                 />
               </div>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full" onClick={changeDetails}>
-            Update info
-          </Button>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" className="w-full">
+              Update info
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   );
