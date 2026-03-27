@@ -15,6 +15,9 @@ import { useState, useEffect } from "react";
 import API from "@/lib/axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Moon } from "lucide-react";
+import { Sun } from "lucide-react";
+
 type User = {
   _id: string;
   userName: string;
@@ -23,7 +26,30 @@ type User = {
   updatedAt: string;
 };
 export function NavigationMenuDemo() {
-  const router = useRouter();
+  const [isDark, setIsDark] = useState(false);
+  const ThemeToggle = () => {
+    useEffect(() => {
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark") {
+        document.documentElement.classList.add("dark");
+        setIsDark(true);
+      }
+    }, []);
+
+    const toggleTheme = () => {
+      const html = document.documentElement;
+
+      if (isDark) {
+        html.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      } else {
+        html.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      }
+
+      setIsDark(!isDark);
+    };
+  };
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -115,6 +141,19 @@ export function NavigationMenuDemo() {
               </NavigationMenuLink>
             )}
           </NavigationMenuItem>
+          {isDark ? (
+            <NavigationMenuItem>
+              <Button onClick={ThemeToggle}>
+                <Moon />
+              </Button>
+            </NavigationMenuItem>
+          ) : (
+            <NavigationMenuItem>
+              <Button onClick={ThemeToggle}>
+                <Sun />
+              </Button>
+            </NavigationMenuItem>
+          )}
         </NavigationMenuList>
       </NavigationMenu>
     </div>
