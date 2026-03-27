@@ -26,30 +26,19 @@ type User = {
   updatedAt: string;
 };
 export function NavigationMenuDemo() {
-  const [isDark, setIsDark] = useState(false);
-  const ThemeToggle = () => {
-    useEffect(() => {
-      const saved = localStorage.getItem("theme");
-      if (saved === "dark") {
-        document.documentElement.classList.add("dark");
-        setIsDark(true);
-      }
-    }, []);
-
-    const toggleTheme = () => {
-      const html = document.documentElement;
-
-      if (isDark) {
-        html.classList.remove("dark");
-        localStorage.setItem("theme", "light");
-      } else {
-        html.classList.add("dark");
-        localStorage.setItem("theme", "dark");
-      }
-
-      setIsDark(!isDark);
-    };
+  const [isDark, setIsDark] = useState(true);
+  const toggleTheme = () => {
+    const html = document.documentElement;
+    if (isDark) {
+      html.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      html.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+    setIsDark(!isDark);
   };
+
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -143,13 +132,13 @@ export function NavigationMenuDemo() {
           </NavigationMenuItem>
           {isDark ? (
             <NavigationMenuItem>
-              <Button onClick={ThemeToggle}>
+              <Button onClick={toggleTheme}>
                 <Moon />
               </Button>
             </NavigationMenuItem>
           ) : (
             <NavigationMenuItem>
-              <Button onClick={ThemeToggle}>
+              <Button onClick={toggleTheme}>
                 <Sun />
               </Button>
             </NavigationMenuItem>
