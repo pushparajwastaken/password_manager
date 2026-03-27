@@ -29,8 +29,13 @@ export default function page() {
 
         setUser(response.data.data);
       } catch (error: any) {
-        toast.error("Failed to fetch user", {
-          description: error.message,
+        const message =
+          error.response?.data?.message ||
+          error.response?.data ||
+          error.message ||
+          "Something went wrong";
+        toast("Failed to fetch user", {
+          description: message,
         });
       }
     };

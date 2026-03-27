@@ -34,8 +34,13 @@ export default function CardDemo() {
       });
       router.replace("/");
     } catch (error: any) {
-      toast("Login Failed", {
-        description: error.message,
+      const message =
+        error.response?.data?.message ||
+        error.response?.data ||
+        error.message ||
+        "Something went wrong";
+      toast("Unable to login", {
+        description: message,
       });
     }
   };

@@ -34,8 +34,13 @@ export default function CardDemo() {
       toast("Password Updated Successfully");
       router.push("/login");
     } catch (error: any) {
-      toast("Unable to change the Password", {
-        description: error.message,
+      const message =
+        error.response?.data?.message ||
+        error.response?.data ||
+        error.message ||
+        "Something went wrong";
+      toast("Unable to change password", {
+        description: message,
       });
     }
   };

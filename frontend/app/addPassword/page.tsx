@@ -34,8 +34,13 @@ export default function Home() {
         masterPassword: "",
       });
     } catch (error: any) {
-      toast("Unable to add Password", {
-        description: error.message,
+      const message =
+        error.response?.data?.message ||
+        error.response?.data ||
+        error.message ||
+        "Something went wrong";
+      toast("Unable to add password", {
+        description: message,
       });
     }
   };

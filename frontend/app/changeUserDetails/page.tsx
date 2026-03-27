@@ -50,8 +50,13 @@ export default function page() {
       toast("User Info Changed Successfully");
       router.push("/me");
     } catch (error: any) {
-      toast("Unable to change info", {
-        description: error.message,
+      const message =
+        error.response?.data?.message ||
+        error.response?.data ||
+        error.message ||
+        "Something went wrong";
+      toast("Unable to change user info", {
+        description: message,
       });
       router.push("/me");
     }
