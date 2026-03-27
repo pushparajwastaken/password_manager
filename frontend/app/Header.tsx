@@ -117,9 +117,7 @@ export function NavigationMenuDemo() {
                 asChild
                 className={navigationMenuTriggerStyle()}
               >
-                <Button variant="outline" onClick={logout}>
-                  Logout
-                </Button>
+                <Button onClick={logout}>Logout</Button>
               </NavigationMenuLink>
             ) : (
               <NavigationMenuLink
@@ -134,7 +132,7 @@ export function NavigationMenuDemo() {
             <NavigationMenuItem>
               <Button
                 onClick={toggleTheme}
-                className="bg-background text-foreground border"
+                className="bg-background text-foreground"
               >
                 <Sun />
               </Button>
@@ -143,7 +141,7 @@ export function NavigationMenuDemo() {
             <NavigationMenuItem>
               <Button
                 onClick={toggleTheme}
-                className="bg-background text-foreground border"
+                className="bg-background text-foreground "
               >
                 <Moon className="" />
               </Button>
