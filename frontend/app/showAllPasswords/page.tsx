@@ -40,7 +40,10 @@ export default function page() {
       toast("Passwords fetched Successfully");
     } catch (error: any) {
       const message =
-        error.response?.data?.message || error.response?.data || error.message;
+        error.response?.data?.message ||
+        error.response?.data ||
+        error.message ||
+        "Something went wrong";
       toast("Unable to fetch passwords", {
         description: message,
       });

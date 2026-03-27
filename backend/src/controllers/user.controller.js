@@ -64,7 +64,9 @@ const loginUser = asyncHandler(async (req, res) => {
   }
   const isPasswordCorrect = await user.isPasswordCorrect(password);
   if (!isPasswordCorrect) {
-    throw new ApiError(401, "Invalid Credentials");
+    return res.status(401).json({
+      message: "Invalid master password",
+    });
   }
   const { refreshToken, accessToken } = await generateAccessAndRefreshTokens(
     user._id,
@@ -165,7 +167,9 @@ const changeMasterPassword = asyncHandler(async (req, res) => {
   const isPasswordCorrect = await user.isPasswordCorrect(masterPassword);
 
   if (!isPasswordCorrect) {
-    throw new ApiError(403, "Incorrect current password");
+    return res.status(401).json({
+      message: "Invalid master password",
+    });
   }
   user.masterPassword = newPassword;
   await user.save();
@@ -203,7 +207,9 @@ const forgotPassword = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
   if (newPassword !== confirmPassword) {
-    throw new ApiError(400, "Both passwords should be same");
+    return res.status(400).json({
+      message: "Both passwords are not same",
+    });
   }
   const user = await User.findOne({ userName });
   if (!user) {
