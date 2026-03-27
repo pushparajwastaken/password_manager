@@ -134,13 +134,19 @@ export function NavigationMenuDemo() {
           </NavigationMenuItem>
           {isDark ? (
             <NavigationMenuItem>
-              <Button onClick={toggleTheme} className=" text-foreground">
+              <Button
+                onClick={toggleTheme}
+                className="bg-background text-foreground"
+              >
                 <Sun />
               </Button>
             </NavigationMenuItem>
           ) : (
             <NavigationMenuItem>
-              <Button onClick={toggleTheme} className="text-foreground ">
+              <Button
+                onClick={toggleTheme}
+                className="bg-background text-foreground "
+              >
                 <Moon className="" />
               </Button>
             </NavigationMenuItem>
