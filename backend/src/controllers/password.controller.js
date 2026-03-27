@@ -81,9 +81,7 @@ export const getAllUserPasswords = asyncHandler(async (req, res) => {
 
   const isValid = await user.isPasswordCorrect(masterPassword);
   if (!isValid) {
-    return res.status(401).json({
-      message: "Invalid master password",
-    });
+    throw new ApiError(401, "Invalid master password");
   }
 
   const passwords = await Password.find({
