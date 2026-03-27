@@ -39,8 +39,10 @@ export default function page() {
       setLock(false);
       toast("Passwords fetched Successfully");
     } catch (error: any) {
+      const message =
+        error.response?.data?.message || error.response?.data || error.message;
       toast("Unable to fetch passwords", {
-        description: error.message,
+        description: message,
       });
     }
   };
