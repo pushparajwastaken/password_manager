@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+
 import API from "@/lib/axios";
 export default function CardDemo() {
   const router = useRouter();
@@ -25,7 +26,6 @@ export default function CardDemo() {
   const onLogin = async () => {
     try {
       const response = await API.post(`/api/v1/users/login`, user);
-      console.log("Full response:", response.data);
 
       localStorage.setItem("accessToken", response.data.data.accessToken);
       document.cookie = `accessToken=${response.data.data.accessToken}; path=/; max-age=86400`;
@@ -102,7 +102,10 @@ export default function CardDemo() {
             </div>
           </CardContent>
           <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full flex items-center justify-center gap-2"
+            >
               Login
             </Button>
           </CardFooter>
